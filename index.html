@@ -9,8 +9,64 @@
   </head>
 
   <body>
+    <header class="header">
+      <div class="header-primary">
+        <logo><a id="header-logo" class="header-logo" href="#">WebTv.</a></logo>
+       
+        
+        <svg class="hamburger-menu-display" xmlns="http://www.w3.org/2000/svg" viewBox="0,0 10,10" stroke="white" stroke-width="2">
+          <line x1="0" x2="10" y1="1" y2="1" />
+          <line x1="0" x2="10" y1="5" y2="5" />
+          <line x1="0" x2="10" y1="9" y2="9" />
+        </svg>
+       
+
+        <a class="header-anchor-login" href="#">Login</a>
+        <a class="header-anchor-register" href="#">Sign Up</a>
+
+      </div>
+
+     
+   
+      <div>
+        <ul class="header-menu-mobile">
+          <li class="nav-list-mobile"><a href="#" class="nav-anchor-mobile">Shows</a></li>
+          <li class="nav-list-mobile"><a href="#" class="nav-anchor-mobile">People</a></li>
+          <li class="nav-list-mobile"><a href="#" class="nav-anchor-mobile">Networks</a></li>
+          <li class="nav-list-mobile"><a href="#" class="nav-anchor-mobile">Articles</a></li>
+          <li class="nav-list-mobile"><a href="#" class="nav-anchor-mobile">Schedule</a></li>
+          <li class="nav-list-mobile"><a href="#" class="nav-anchor-mobile">Calendar</a></li>
+          <li class="nav-list-mobile"><a href="#" class="nav-anchor-mobile">Countdown</a></li>
+          <li class="nav-list-mobile"><a href="#" class="nav-anchor-mobile">Forums</a></li>
+        </ul>
+      </div>
+      <nav>
+        <ul class="header-secondary">
+          <li class="nav-list"><a href="#" class="nav-anchor">Shows</a></li>
+          <li class="nav-list"><a href="#" class="nav-anchor">People</a></li>
+          <li class="nav-list"><a href="#" class="nav-anchor">Networks</a></li>
+          <li class="nav-list"><a href="#" class="nav-anchor">Articles</a></li>
+          <li class="nav-list"><a href="#" class="nav-anchor">Schedule</a></li>
+          <li class="nav-list"><a href="#" class="nav-anchor">Calendar</a></li>
+          <li class="nav-list"><a href="#" class="nav-anchor">Countdown</a></li>
+          <li class="nav-list"><a href="#" class="nav-anchor">Forums</a></li>
+        </ul>
+      </nav>
+  </header>
+  <h1 id="main-title">GAME OF THRONES <span class="channel-span">(HBO<img class="flag-img" src="https://cdn-icons-png.flaticon.com/512/555/555526.png">, 2011-2019)</span></h1>
+    <form class="form">
+      <label name="search">Search</label>
+      <input name="search" id="search-input">
+    </form>
+    <p class="search-results"></p>
+ 
+   
+
     <div id="root">
+    
+    
     </div>
+    <sidenote class="sidenote">The data on this webpage came from <a href="https://www.tvmaze.com/shows/82/game-of-thrones/episodes">TVMaze.com</a>.</sidenote>
 
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
     <script src="episodes.js"></script>
