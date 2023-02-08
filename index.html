@@ -55,8 +55,10 @@
   </header>
   <h1 id="main-title">GAME OF THRONES <span class="channel-span">(HBO<img class="flag-img" src="https://cdn-icons-png.flaticon.com/512/555/555526.png">, 2011-2019)</span></h1>
     <form class="form">
-      <label name="search">Search</label>
-      <input name="search" id="search-input">
+      <div class="search-area-container">
+        <label for="search-input" name="search">Search</label>
+        <input name="search" id="search-input" placeholder="your search term">
+      </div>
     </form>
     <p class="search-results"></p>
  
@@ -66,12 +68,18 @@
     
     
     </div>
-    <sidenote class="sidenote">The data on this webpage came from <a href="https://www.tvmaze.com/shows/82/game-of-thrones/episodes">TVMaze.com</a>.</sidenote>
+    <p class="sidenote">The data on this webpage came from <a href="https://www.tvmaze.com/shows/82/game-of-thrones/episodes">TVMaze.com</a>.</p>
 
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
+     <!-- <script src="episodes.js"></script>  -->
+     <script src="shows.js"></script> 
+    
+     <script src="script.js"></script>
 
     <!-- Loads YOUR javascript code -->
-    <script src="script.js"></script>
+     <!-- <script src="script.js"></script> -->
+
+     <!-- My script with data from episodes.js-->
+    <!-- <script src="script-api.js"></script> --> 
   </body>
 </html>

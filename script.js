@@ -1,58 +1,52 @@
 //You can edit ALL of the code here
 
-function setup() {
-  const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
-  setUpSearch();
-  displayingAllEpisodesLength();
-  populateSelect(allEpisodes);
-  menu();
-}
+let allEpisodes = [];
 
-function setUpSearch() {
-  let searchInput = document.getElementById("search-input");
-  searchInput.addEventListener("keyup", filteredSearch);
-}
+const allShows = getAllShows();
 
-function displayingAllEpisodesLength() {
-  let episodes = getAllEpisodes();
-  let display = document.querySelector(".search-results");
-  display.innerText = `Displaying ${episodes.length} / ${episodes.length} episodes`;
-}
+const sortedShows = allShows.sort((a, b) => {
+  let fa = a.name.toLowerCase(),
+    fb = b.name.toLowerCase();
 
-function filteredSearch() {
-  let searchInput = document.getElementById("search-input");
-  let searchInputValue = searchInput.value.toLowerCase();
-  let splitSearch = searchInputValue.split(" ");
-  // remove all new-div s from root
-  let root = document.getElementById("root");
-  document.querySelectorAll(".new-div").forEach((element) => element.remove());
-
-  // .filter on all episodes
-  let episodes = getAllEpisodes();
-  let filteredArr = episodes.filter((element) => {
-    let name = element.name.toLowerCase();
-    let paragraph = element.summary.toLowerCase();
-    let allText = name + " " + paragraph;
-    return containsAllSubStrings(allText, splitSearch);
-    // name.includes(searchInputValue) || paragraph.includes(searchInputValue)
-  });
-  // makepage for remaining episodes
-
-  function containsAllSubStrings(targetString, searchSubstrings) {
-    //loop over searchSubstrings and return true if all of them are included in targetString
-    return searchSubstrings.some((item) => targetString.includes(item));
+  if (fa < fb) {
+    return -1;
   }
+  if (fa > fb) {
+    return 1;
+  }
+  return 0;
+});
 
-  makePageForEpisodes(filteredArr);
-  let display = document.querySelector(".search-results");
-  display.innerText = `Displaying ${filteredArr.length} / ${episodes.length} episodes`;
-}
+populateShowsSelect(sortedShows);
 
-function makePageForEpisodes(episodeList) {
+const setup = async () => {
+  // let allEpisodes = getAllEpisodes();
+  const res = await fetch("https://api.tvmaze.com/shows/82/episodes");
+  allEpisodes = await res.json();
+
+  makePageForEpisodes(allEpisodes);
+  populateSelect(allEpisodes);
+  filteredSearch(allEpisodes);
+  displayingAllEpisodesLength(allEpisodes);
+  setUpSearch();
+  menu();
+};
+
+const fetchAllEpsiodes = async (showId) => {
+  // url: https://api.tvmaze.com/shows/SHOW_ID/episodes
+  const res = await fetch(`https://api.tvmaze.com/shows/${showId}/episodes`);
+  allEpisodes = await res.json();
+
+  makePageForEpisodes(allEpisodes);
+  populateSelect(allEpisodes);
+  console.log(allEpisodes);
+};
+
+function makePageForEpisodes(episodes) {
   const rootElem = document.getElementById("root");
+  rootElem.innerHTML = "";
 
-  episodeList.forEach((item) => {
+  let pageForEpisodes = episodes.forEach((item) => {
     let newDiv = document.createElement("div");
     newDiv.classList.add("new-div");
 
@@ -72,11 +66,7 @@ function makePageForEpisodes(episodeList) {
 
     let paragraph = document.createElement("p");
     paragraph.classList.add("paragraph");
-    paragraph.innerText = item.summary
-      .replaceAll("<p>", "")
-      .replaceAll("</p>", "")
-      .replaceAll("<br>", "")
-      .replaceAll("</br>", "");
+    paragraph.innerHTML = item.summary;
 
     let backToTop = document.createElement("a");
     backToTop.classList.add("back-to-top");
@@ -89,6 +79,7 @@ function makePageForEpisodes(episodeList) {
     newDiv.appendChild(backToTop);
     rootElem.appendChild(newDiv);
   });
+  displayingAllEpisodesLength(episodes);
 }
 
 function menu() {
@@ -99,18 +90,18 @@ function menu() {
   });
 }
 
-function populateSelect(allEpisodes) {
+function populateSelect(episodes) {
   let selectField = document.createElement("select");
   selectField.setAttribute("id", "select-field");
 
-  allEpisodes.forEach((item) => {
+  episodes.forEach((item) => {
     let optionField = document.createElement("option");
     let name = item.name;
     let season = item.season.toString().padStart(2, "0");
     let episode = item.number.toString().padStart(2, "0");
     let designation = `#S${season}E${episode} - ${name}`;
     optionField.value = designation;
-    optionField.innerText = designation;
+    optionField.innerText = `S${season}E${episode} - ${name}`;
     selectField.appendChild(optionField);
   });
 
@@ -118,9 +109,89 @@ function populateSelect(allEpisodes) {
   formContainer.appendChild(selectField);
 
   selectField.addEventListener("change", (event) => {
-    let newDivLocation = event.target.value;
-    window.location = newDivLocation;
+    console.log(event.target.value);
+    let designation = event.target.value;
+    let filteredEpisode = episodes.filter((item) => {
+      let name = item.name;
+      let season = item.season.toString().padStart(2, "0");
+      let episode = item.number.toString().padStart(2, "0");
+      let designation1 = `#S${season}E${episode} - ${name}`;
+      return designation1 === designation;
+    });
+    makePageForEpisodes(filteredEpisode);
+    displayingAllEpisodesLength(filteredEpisode);
+    // filter episode by creating a same page link below////
+    // let newDivLocation = event.target.value;
+    // window.location = newDivLocation;
   });
+}
+
+function populateShowsSelect(shows) {
+  let showsSelect = document.createElement("select");
+  showsSelect.setAttribute("id", "shows-select");
+  shows.forEach((show) => {
+    let option = document.createElement("option");
+    option.classList.add("shows-option");
+    // option.value = `https://api.tvmaze.com/shows/${show.id}/episodes`;
+    option.value = show.id; // 1632
+    option.innerText = show.name;
+    showsSelect.appendChild(option);
+  });
+
+  let formContainer = document.querySelector(".form");
+  formContainer.appendChild(showsSelect);
+
+  // I click the shows dropdown with show 1632
+  // that creates an event:
+  showsSelect.addEventListener("change", (event) => {
+    console.log(event);
+    // event = {
+    //   target: {
+    //     value: 1632
+    //   },
+    // }
+    const showId = event.target.value;
+    // targetValueArray.push(event.target.value);
+    allEpisodes = [];
+    fetchAllEpsiodes(showId);
+
+    let episodesSelect = document.getElementById("select-field");
+    episodesSelect.remove();
+
+    let text = showsSelect.options[showsSelect.selectedIndex].text;
+    let oldShowTitle = document.getElementById("main-title");
+    oldShowTitle.innerText = text;
+  });
+}
+
+function displayingAllEpisodesLength(episodes) {
+  let display = document.querySelector(".search-results");
+  display.innerText = `Displaying ${episodes.length} / ${episodes.length} episode(s)`;
+}
+
+function filteredSearch() {
+  let searchInput = document.getElementById("search-input");
+  let searchInputValue = searchInput.value.toLowerCase();
+  let splitSearch = searchInputValue.split(" ");
+  // let pageWithEpisodes = allEpisodes;
+  let filteredArr = [...allEpisodes].filter((element) => {
+    let name = element.name.toLowerCase();
+    let paragraph = element.summary.toLowerCase();
+    let allText = name + " " + paragraph;
+    return containsAllSubStrings(allText, splitSearch);
+  });
+
+  function containsAllSubStrings(targetString, searchSubstrings) {
+    return searchSubstrings.every((item) => targetString.includes(item));
+  }
+
+  makePageForEpisodes(filteredArr);
+  displayingAllEpisodesLength(filteredArr);
+}
+
+function setUpSearch() {
+  let searchInput = document.getElementById("search-input");
+  searchInput.addEventListener("keyup", filteredSearch);
 }
 
 window.onload = setup;
