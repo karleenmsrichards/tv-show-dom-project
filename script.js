@@ -19,28 +19,7 @@ const sortedShows = allShows.sort((a, b) => {
 
 populateShowsSelect(sortedShows);
 
-const setup = async () => {
-  // let allEpisodes = getAllEpisodes();
-  const res = await fetch("https://api.tvmaze.com/shows/82/episodes");
-  allEpisodes = await res.json();
 
-  makePageForEpisodes(allEpisodes);
-  populateSelect(allEpisodes);
-  filteredSearch(allEpisodes);
-  displayingAllEpisodesLength(allEpisodes);
-  setUpSearch();
-  menu();
-};
-
-const fetchAllEpsiodes = async (showId) => {
-  // url: https://api.tvmaze.com/shows/SHOW_ID/episodes
-  const res = await fetch(`https://api.tvmaze.com/shows/${showId}/episodes`);
-  allEpisodes = await res.json();
-
-  makePageForEpisodes(allEpisodes);
-  populateSelect(allEpisodes);
-  console.log(allEpisodes);
-};
 
 function makePageForEpisodes(episodes) {
   const rootElem = document.getElementById("root");
@@ -90,7 +69,52 @@ function menu() {
   });
 }
 
-function populateSelect(episodes) {
+//LEVEL 200 ////////////////////////
+///////////////ADD LIVE SEARCH INPUT
+/////////////////1.ONLY DISPLAY EPISODES WHO'S NAMES AND SUMMARY ARE INCLUDED IN THE SEARCH AREA
+/////////////////////2. SEARCH SHOULD BE CASE-INSENSITIVE
+////////////////////////////3.DISPLAY SHOULD UPDATE IMMEDIATELY
+/////////////////////////////////4. DISPLAY HOW MANY EPISODES MATCH CURRENT SEARCH
+///////////////////////////////////////5. IF SEARCH AREA IS EMPTY DISPLAY ALL EPISODES
+
+function filteredSearch() {
+  let searchInput = document.getElementById("search-input");
+  let searchInputValue = searchInput.value.toLowerCase();
+  let splitSearch = searchInputValue.split(" ");
+  // let pageWithEpisodes = allEpisodes;
+  let filteredArr = [...allEpisodes].filter((element) => {
+    let name = element.name.toLowerCase();
+    let paragraph = element.summary.toLowerCase();
+    let allText = name + " " + paragraph;
+    return containsAllSubStrings(allText, splitSearch);
+  });
+
+  function containsAllSubStrings(targetString, searchSubstrings) {
+    return searchSubstrings.every((item) => targetString.includes(item));
+  }
+
+  makePageForEpisodes(filteredArr);
+  displayingAllEpisodesLength(filteredArr);
+}
+
+function setUpSearch() {
+  let searchInput = document.getElementById("search-input");
+  searchInput.addEventListener("keyup", filteredSearch);
+}
+
+function displayingAllEpisodesLength(episodes) {
+  let display = document.querySelector(".search-results");
+  display.innerText = `Displaying ${episodes.length} / ${episodes.length} episode(s)`;
+}
+
+//LEVEL 300 ////////
+///////ADD SELECT TO JUMP TO SELECTED EPISODE
+//////////1.EPISODES TO BE LISTED IN FORMAT S01E05
+//////////////2.ON SELECTION USER SHOULD BE TAKEN DIRECTLY TO EPISODE
+//////////////////3.SHOW THE SELECTED EPISODE ONLY OR CREATE A LINK TO EPISODE
+/////////////////////4.MAKE A WAY FOR THE USER TO GET BACK TO ALL EPISODES
+
+function populateEpisodesSelect(episodes) {
   let selectField = document.createElement("select");
   selectField.setAttribute("id", "select-field");
 
@@ -125,6 +149,36 @@ function populateSelect(episodes) {
     // window.location = newDivLocation;
   });
 }
+
+//LEVEL 350///////////
+///////////////PAGE SHOULD LOAD WITH THE SAME EPISODES BUT FETCH FROM API
+//////////////////1.YOUR SEARCH AN EPISODE SELECTOR MUST CONTINUE TO WORK AS BEFORE
+////////////////////////2. DO NOT RE-FETCH EPISODES EACH TIME A USER TYPES A CHARACTER
+
+const setup = async () => {
+  // let allEpisodes = getAllEpisodes();
+  const res = await fetch("https://api.tvmaze.com/shows/82/episodes");
+  allEpisodes = await res.json();
+
+  makePageForEpisodes(allEpisodes);
+  populateEpisodesSelect(allEpisodes);
+  filteredSearch(allEpisodes);
+  displayingAllEpisodesLength(allEpisodes);
+  setUpSearch();
+  menu();
+};
+
+//LEVEL 400///////////
+
+const fetchAllEpsiodes = async (showId) => {
+  // url: https://api.tvmaze.com/shows/SHOW_ID/episodes
+  const res = await fetch(`https://api.tvmaze.com/shows/${showId}/episodes`);
+  allEpisodes = await res.json();
+
+  makePageForEpisodes(allEpisodes);
+  populateEpisodesSelect(allEpisodes);
+  console.log(allEpisodes);
+};
 
 function populateShowsSelect(shows) {
   let showsSelect = document.createElement("select");
@@ -162,36 +216,6 @@ function populateShowsSelect(shows) {
     let oldShowTitle = document.getElementById("main-title");
     oldShowTitle.innerText = text;
   });
-}
-
-function displayingAllEpisodesLength(episodes) {
-  let display = document.querySelector(".search-results");
-  display.innerText = `Displaying ${episodes.length} / ${episodes.length} episode(s)`;
-}
-
-function filteredSearch() {
-  let searchInput = document.getElementById("search-input");
-  let searchInputValue = searchInput.value.toLowerCase();
-  let splitSearch = searchInputValue.split(" ");
-  // let pageWithEpisodes = allEpisodes;
-  let filteredArr = [...allEpisodes].filter((element) => {
-    let name = element.name.toLowerCase();
-    let paragraph = element.summary.toLowerCase();
-    let allText = name + " " + paragraph;
-    return containsAllSubStrings(allText, splitSearch);
-  });
-
-  function containsAllSubStrings(targetString, searchSubstrings) {
-    return searchSubstrings.every((item) => targetString.includes(item));
-  }
-
-  makePageForEpisodes(filteredArr);
-  displayingAllEpisodesLength(filteredArr);
-}
-
-function setUpSearch() {
-  let searchInput = document.getElementById("search-input");
-  searchInput.addEventListener("keyup", filteredSearch);
 }
 
 window.onload = setup;
