@@ -17,10 +17,6 @@ const sortedShows = allShows.sort((a, b) => {
   return 0;
 });
 
-populateShowsSelect(sortedShows);
-
-
-
 function makePageForEpisodes(episodes) {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
@@ -135,13 +131,16 @@ function populateEpisodesSelect(episodes) {
   selectField.addEventListener("change", (event) => {
     console.log(event.target.value);
     let designation = event.target.value;
+    e.preventDefault();
     let filteredEpisode = episodes.filter((item) => {
       let name = item.name;
       let season = item.season.toString().padStart(2, "0");
       let episode = item.number.toString().padStart(2, "0");
       let designation1 = `#S${season}E${episode} - ${name}`;
+
       return designation1 === designation;
     });
+
     makePageForEpisodes(filteredEpisode);
     displayingAllEpisodesLength(filteredEpisode);
     // filter episode by creating a same page link below////
@@ -162,9 +161,11 @@ const setup = async () => {
 
   makePageForEpisodes(allEpisodes);
   populateEpisodesSelect(allEpisodes);
+  populateShowsSelect(sortedShows);
   filteredSearch(allEpisodes);
   displayingAllEpisodesLength(allEpisodes);
   setUpSearch();
+
   menu();
 };
 
@@ -177,7 +178,6 @@ const fetchAllEpsiodes = async (showId) => {
 
   makePageForEpisodes(allEpisodes);
   populateEpisodesSelect(allEpisodes);
-  console.log(allEpisodes);
 };
 
 function populateShowsSelect(shows) {
