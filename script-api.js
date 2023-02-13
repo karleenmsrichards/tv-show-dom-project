@@ -66,6 +66,7 @@ function menu() {
     mobileMenuItems.classList.toggle("open");
   });
 }
+
 function setUpSearch() {
   let searchInput = document.getElementById("search-input");
   searchInput.addEventListener("input", filteredSearch);
