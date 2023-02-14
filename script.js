@@ -233,19 +233,19 @@ function filteredSearch() {
   displayingAllEpisodesLength(filteredArr);
 }
 
-function setUpEpisodeSearch() {
-  const episodeSearch = document.getElementById("episode-search-wrapper");
-  episodeSearch.style.display = "block";
-  const showSearch = document.getElementById("show-search-wrapper");
-  showSearch.style.display = "none";
-  let episodeInput = document.getElementById("episode-input");
-  episodeInput.addEventListener("keyup", filteredSearch);
-}
-
 // function setUpEpisodeSearch() {
+//   const episodeSearch = document.getElementById("episode-search-wrapper");
+//   episodeSearch.style.display = "block";
+//   const showSearch = document.getElementById("show-search-wrapper");
+//   showSearch.style.display = "none";
 //   let episodeInput = document.getElementById("episode-input");
 //   episodeInput.addEventListener("keyup", filteredSearch);
 // }
+
+function setUpEpisodeSearch() {
+  let episodeInput = document.getElementById("episode-input");
+  episodeInput.addEventListener("keyup", filteredSearch);
+}
 
 function displayingAllEpisodesLength(episodes) {
   let display = document.querySelector(".search-results");
@@ -313,23 +313,23 @@ const fetchAllEpsiodes = async (showId) => {
   populateEpisodesSelect(allEpisodes);
 };
 
-function setup() {
-  // let allShows = getAllShows();
-  const episodeSearch = document.getElementById("episode-search-wrapper");
-  episodeSearch.style.display = "none";
-  const showSearch = document.getElementById("show-search-wrapper");
-  showSearch.style.display = "block";
-
-  pageForShows(sortedShows);
-  showsSelect(sortedShows);
-  setUpShowSearch();
-}
-
 // function setup() {
 //   // let allShows = getAllShows();
+//   const episodeSearch = document.getElementById("episode-search-wrapper");
+//   episodeSearch.style.display = "none";
+//   const showSearch = document.getElementById("show-search-wrapper");
+//   showSearch.style.display = "block";
+
 //   pageForShows(sortedShows);
 //   showsSelect(sortedShows);
 //   setUpShowSearch();
 // }
+
+function setup() {
+  // let allShows = getAllShows();
+  pageForShows(sortedShows);
+  showsSelect(sortedShows);
+  setUpShowSearch();
+}
 
 window.onload = setup;
