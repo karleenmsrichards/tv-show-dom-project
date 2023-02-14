@@ -105,13 +105,9 @@ function showsSelect(shows) {
     showsSelect.appendChild(option);
   });
 
-  let formContainer = document.querySelector(".form");
-  formContainer.appendChild(showsSelect);
-
   showsSelect.addEventListener("change", (event) => {
     const showId = event.target.value;
     fetchAllEpsiodes(showId);
-
     setUpEpisodeSearch();
   });
 }
@@ -124,8 +120,7 @@ function filterShow() {
     let itemSummary = item.summary;
     let itemGenres = item.genres.toString().replaceAll(",", " ");
     let allText = `${itemName} ${itemSummary} ${itemGenres}`;
-    // console.log(searchInput.value);
-    // console.log(typeof item.name);
+
     return allText.toLowerCase().includes(searchInput.value.toLowerCase());
   });
   console.log(foundShows);
@@ -133,7 +128,6 @@ function filterShow() {
   displayingShowsLength(foundShows);
   showsSelect(foundShows);
   setUpEpisodeSearch();
-  // linkToShows();
 }
 
 function setUpShowSearch() {
@@ -224,7 +218,6 @@ function filteredSearch() {
   let searchInput = document.getElementById("episode-input");
   let searchInputValue = searchInput.value.toLowerCase();
   let splitSearch = searchInputValue.split(" ");
-  // let pageWithEpisodes = allEpisodes;
   let filteredArr = [...allEpisodes].filter((element) => {
     let name = element.name.toLowerCase();
     let paragraph = element.summary.toLowerCase();
@@ -241,9 +234,18 @@ function filteredSearch() {
 }
 
 function setUpEpisodeSearch() {
+  const episodeSearch = document.getElementById("episode-search-wrapper");
+  episodeSearch.style.display = "block";
+  const showSearch = document.getElementById("show-search-wrapper");
+  showSearch.style.display = "none";
   let episodeInput = document.getElementById("episode-input");
   episodeInput.addEventListener("keyup", filteredSearch);
 }
+
+// function setUpEpisodeSearch() {
+//   let episodeInput = document.getElementById("episode-input");
+//   episodeInput.addEventListener("keyup", filteredSearch);
+// }
 
 function displayingAllEpisodesLength(episodes) {
   let display = document.querySelector(".search-results");
@@ -277,7 +279,6 @@ function populateEpisodesSelect(episodes) {
   episodeSelect.addEventListener("change", (event) => {
     console.log(event.target.value);
     let designation = event.target.value;
-    // e.preventDefault();
     let filteredEpisode = episodes.filter((item) => {
       let name = item.name;
       let season = item.season.toString().padStart(2, "0");
@@ -314,9 +315,21 @@ const fetchAllEpsiodes = async (showId) => {
 
 function setup() {
   // let allShows = getAllShows();
+  const episodeSearch = document.getElementById("episode-search-wrapper");
+  episodeSearch.style.display = "none";
+  const showSearch = document.getElementById("show-search-wrapper");
+  showSearch.style.display = "block";
+
   pageForShows(sortedShows);
   showsSelect(sortedShows);
   setUpShowSearch();
 }
+
+// function setup() {
+//   // let allShows = getAllShows();
+//   pageForShows(sortedShows);
+//   showsSelect(sortedShows);
+//   setUpShowSearch();
+// }
 
 window.onload = setup;

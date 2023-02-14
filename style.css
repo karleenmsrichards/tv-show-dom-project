@@ -179,6 +179,10 @@ display: none;
   /* border: 2px dotted red; */
 } 
 
+#episode-search-wrapper {
+  display: none;
+}
+
 .show-search-label {
   margin-top: 10px;
   display: block;
