@@ -3,19 +3,141 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | My Name (My GitHub username)</title>
+    <title>TV Show Project | Karleen Richards (karleenmsrichards)</title>
     <link href="style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
 
   <body>
-    <div id="root">
-    </div>
 
+    <header>
+
+        <logo><a id="header-logo" class="header-logo" href="#">WebTv.</a></logo>
+
+        <svg class="hamburger-menu-display" xmlns="http://www.w3.org/2000/svg" viewBox="0,0 10,10" stroke="#eea63a" stroke-width="2">
+          <line x1="0" x2="10" y1="1" y2="1" />
+          <line x1="0" x2="10" y1="5" y2="5" />
+          <line x1="0" x2="10" y1="9" y2="9" />
+        </svg>
+       
+        <div class="show-search">
+          <input name="show-input" id="show-input" placeholder="What do you want to watch?">
+          <label class="show-input-label" for="show-input">Search</label>
+        </div>
+        <a href="#" class="header-tv-shows">Shows</a>
+        <a href="#" class="header-movies">Movies</a>
+        
+      
+
+        <a class="header-anchor-login" href="#">Login</a>
+        <a class="header-anchor-register" href="#">Sign Up</a>
+
+    </header>
+    <main id="main-container">
+
+      <div id="main-left">
+        <fieldset>
+          <legend>SORT BY</legend>
+
+          <div>
+            <input type="radio" id="popular" name="sort-by" value="popular"
+                   checked>
+            <label for="popular">Popular</label>
+          </div>
+      
+          <div>
+            <input type="radio" id="new-releases" name="sort-by" value="new-releaes"
+                   >
+            <label for="new-releases">New Releases</label>
+          </div>
+      
+          <div>
+            <input type="radio" id="recently-added" name="sort-by" value="recently-added">
+            <label for="">Recently Added</label>
+          </div>
+      
+          <div>
+            <input type="radio" id="rating"name="sort-by" value="rating">
+            <label for="rating">Rating</label>
+            <button id="click-btn">Click</button>
+            <p id="output"></p>
+          </div>
+
+          <div>
+            <input type="radio" id="metascore" name="sort-by" value="metascore">
+            <label for="metascore">Metascore</label>
+          </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>SOURCE</legend>
+    
+        <div>
+          <input type="radio" id="free" name="source" value=""
+                 checked>
+          <label for="free">Free</label>
+        </div>
+    
+        <div>
+          <input type="radio" id="rrent-or-buy" name="source" value="">
+          <label for="">Rent or Buy</label>
+        </div>
+    
+        <div>
+          <input type="radio" id="xubscription" name="source" value="">
+          <label for="Subscription">Subscription</label>
+        </div>
+      </fieldset>
+
+      </div>
+
+      <div id="main-right">
+        <div id="show-slideshow-container">
+          <i class="fa-solid fa-angle-left"></i>
+          <div id="slideshow-wrapper">
+            <!-- <img id="show-slideshow" alt="slideshow of Shows  snaps-inline"> -->
+          </div>
+          <i class="fa-solid fa-angle-right"></i>
+        </div>
+        <form class="form">
+          <div id="show-select-wrapper">
+              <label class="shows-select-label" for="search-select" name="shows-select">Select a show</label>
+              <select id="shows-select"></select>
+          </div>
+
+          <div id="episode-search-wrapper">
+            <label class="episode-search-label" for="search-input" name="search">Search episodes</label>
+            <input id="episode-input" placeholder="Look up episode">
+          </div>
+
+          <div id="episode-select-wrapper">
+            <label class="episode-select-label" for="episode-select" name="episode-select">Select episode</label>
+            <select id="episode-select"></select>
+          </div>
+        </form>
+        <div id="title-container">
+          <button id="all-shows-link">Shows</button>
+          <h1 id="main-title">Shows</h1>
+        </div>
+        <p class="search-results"></p>
+        
+    
+        <div id="root"></div>
+
+      </div>
+    </main>
+    <footer>
+      <p class="sidenote">The data on this webpage came from <a href="https://www.tvmaze.com/shows/82/game-of-thrones/episodes">TVMaze.com</a>.</p>
+    </footer>
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
+     <!-- <script src="episodes.js"></script>  -->
+     <script src="shows.js"></script> 
+    
+     <script src="script.js"></script>
 
     <!-- Loads YOUR javascript code -->
-    <script src="script.js"></script>
+     <!-- <script src="script.js"></script> -->
+
   </body>
 </html>
